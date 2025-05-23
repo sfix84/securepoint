@@ -1,4 +1,6 @@
 # securepoint
+Dokumentation Arbeitsschritte und Gedanken hierzu:
+
 2025-05-22
 Erste Gedanken nach dem Lesen der Aufgabe:
 Man könnte die File mit regulären Ausdrücken in ein assoziatives Array zerlegen, der JSON-Part ist so wie es aussieht komprimiert, hinter dem Block hierfür steht was von gzip, mal schauen, wie ich das sauber rausziehe, da gibt es bestimmt eine eingebaute Funktion mit ..._decode(), prüfe das auf php.net. Prüfe hier ebenfalls, ob es eine Funktion für das erstellen eines Arrays gibt, explode kommt hier wohl nicht in Frage, wegen fehlender einzigartiger Trennzeichen, aber vielleicht doch, oder etwas ähnliches?
@@ -14,3 +16,13 @@ Mit fgets() kann ich über die Logfile Zeile für Zeile iterieren. Um die Tests 
 
 2025-05-23
 Daten kommen aus Datei und werden bei jedem Schleifendurchlauf mit explode(" ", $file); in Array zerlegt. Zeile und Array (ja, seitdem ich PHP spreche fange ich mit 0 an zu zählen) wird erstmal commitet, später kümmere ich mich darum, die Daten in die DB zu schreiben. 
+
+Erstelle DB, hier verwende ich die IP als Unique ID, sollte es später beim Import zum Fehler kommen, weiß ich, dass ich über die IP kein einzelnes Gerät als solches über die IP erkennen kann. 
+Für das JSON-Feld nehme ich erstmal "varchar", später kümmere ich mich ums decodieren, wenn ich bei der Bonusaufgabe angekommen bin.
+
+Später am Nachmittag: Habe DB angelegt und mal testweise einfach die Count-Variable in den primary key geschrieben. Offensichtlich fehlt genau die Hälfte der Daten aus meiner Test-Logfile. Prüfe den Code.
+Problem: Habe fgets() in der while-Schleife ein zweites Mal aufgerufen. Lösung: Nutze fgets() aus dem Aufruf der Schleife. (Klammersetzung korrigiert).
+
+Schreiben in DB funktioniert, erstmal nur das erste Feld (IP). Ich teste direkt die Originaldatei, ob ich die IP als Primary Key verwenden kann. Ergebnis: Funktioniert so nicht, IP ist nicht unique. Setze stattdessen neues Primärschlüsselfeld mit auto_increment und mache testlauf mit der Originaldatei, ob es wirklich keine RAM-Probleme oder dergleichen gibt und das Script sauber bis zum Schluss durchläuft.
+
+Es läuft und läuft und läuft... Mach an dieser Stelle einen weiteren commit, werde mich im Anschluss darum kümmern, die kompletten Daten in die DB zu schreiben, so dass ich im Anschluss dazu übergehen kann die Fragen aus der Aufgabenstellung mittels SQL-Querys zu beantworten.
