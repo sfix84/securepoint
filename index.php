@@ -48,7 +48,10 @@ if ($file){
         $size = $logarray[7] ?? NULL;
         $reverse_proxy = $logarray[8] ?? NULL;
         $duration = $logarray[9] ?? NULL;
-        $serialnumber_license = $logarray[10] ?? NULL;
+        //$serialnumber_license = $logarray[10] ?? NULL;
+        
+        $serialnumber_license = preg_replace('/^serial=/', '', $logarray[10]);
+        //echo $serialnumber_license;
         $firmware_version = $logarray[11] ?? NULL;
         $system_status = $logarray[12] ?? NULL;
 
