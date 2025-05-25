@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8">
     <html lang="en">
-    <title>Seceruepoint recruitment excercise</title>
+    <title>Securepoint recruitment excercise</title>
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
@@ -76,12 +76,6 @@ echo "</table></div>";
 #####################################################
 
 // Which serialnumbers are violating the "1 device, 1 number" rule (the most, 10 DESC)
-
-echo "<h2>Question 2: Describe how you identify a single device as such. Provide a way to identify licenses that are installed on more than one device. ";  echo "What are the 10 license serials that violoate this rule the most?</h2>";
-echo "<h3>Answer:</h3>";
-echo "<p>There are <b class='violation'>$violation_counter</b> rule violations.</p>";
-echo "<table><tr><th>serial number</th><th>rule violations</th></tr>";
-
 $stmt_violating_rule = "SELECT `serialnumber_license`, COUNT(DISTINCT `mac`) AS `anzahl` FROM `log_data` GROUP BY `serialnumber_license` HAVING `anzahl` > 1 ORDER BY `anzahl` DESC;";
 $data_violating_rule = $db->query($stmt_violating_rule);
 $violation_counter = 0;
@@ -94,16 +88,55 @@ while($row = $data_violating_rule->fetch(PDO::FETCH_ASSOC)){
     );
 
 };
+
+echo "<h2>Question 2: Describe how you identify a single device as such.Describe how you identify a single device as such. ";
+echo "Provide a way to identify licenses that are installed on more than one device. ";  
+echo "What are the 10 license serials that violoate this rule the most?</h2>";
+echo "<h3>Answer:</h3>";
+echo "<p>One can identify a single device by field 'mac' (address).</p>";
+echo "<p>There are <b class='violation'>$violation_counter</b> rule violations.</p>";
+echo "<table><tr><th>serial number</th><th>rule violations</th></tr>";
+
+
 for($i=0; $i<10; $i++){
     echo "<tr>";
     echo "<td>{$violation_array[$i]['serialnumber_license']}</td>";
     echo "<td>{$violation_array[$i]['anzahl']}</td>";
     echo "</tr>";
 }
+echo "</table>";
+echo "<br>";
 
 #####################################################
 ####################BONUS Question###################
 #####################################################
+echo "<h2>Bonus Question (3): Based on the information given in the specs metadata, try to identify the different classes of hardware ";
+echo "that are in use and provide the number of licenses that are active on these types of hardware.</h2>";
+echo "<h3>Answer:</h3>";
+echo "<p>Thinking: A combination of the fields: machine, mem, cpu should give a unique type of hardware.</p>";
+
+$stmt_select_hardwaretypes = "SELECT machine, mem, cpu, COUNT(*) AS anzahl FROM log_data GROUP BY machine, mem, cpu ORDER BY anzahl DESC;";
+$hardware_types = $db->query($stmt_select_hardwaretypes);
+$type_number = 0;
+while($row = $hardware_types->fetch(PDO::FETCH_ASSOC)){
+    $type_number++;
+    $hardware_type = $row['machine'] . $row['mem'] . $row['cpu'];
+    echo "Hardware Typ: $hardware_type, Typnummer: $type_number <br>-----------------<br>";
+
+    
+
+    // echo "Hardwaretypnummer: " . $type_number . "<br>";
+    // print_r($row);
+    // echo "<br>------------<br>";
+    // array_push($violation_array, [
+    //     'serialnumber_license' => $row['serialnumber_license'],
+    //     'anzahl' => $row['anzahl']]
+    // );
+};
+//$stmt = $db->prepare("INSERT INTO log_data (hardware_type) VALUES (:hardware_type)
+
+echo "<p>There are <b>$type_number</b> different classes of hardware.";
+
 
 
 ?>

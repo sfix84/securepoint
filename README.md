@@ -37,7 +37,13 @@ Ich glaube hier passiert auch Vorarbeit für die Lösung von Aufgabe 2: Ich beko
 2025-05-25
 Ok, habe jetzt ein array befüllt, in denen die Lizenz-Seriennummern, die mehr als einmal in der db vorkommen enthalten sind. Jetzt muss ich nur noch schauen, ob eine Seriennummer mehr als eine mac-Adresse hat.
 
-Das Array hätte ich dafür gar nicht befüllen müssen, nach einigem probieren und recherchieren habe ich erkannt, dass es auch hierfür eine performante SQL-Abfrage gibt.
+Das Array hätte ich dafür gar nicht befüllen müssen, nach einigem probieren und recherchieren habe ich erkannt, dass es auch hierfür eine performante SQL-Abfrage gibt. Viel rumprobieren, bis es endlich funktioniert hat.
 
 Die Dateien wurden wie folgt umbenannt: die index.php liefert jetzt die Antworten auf die gestellten Fragen. Die dataload.php lädt die Daten neu in die Datenbank. Ggf. sollten diese vorher manuell gelöscht werden.
 
+Bonusfrage: Eine Kombination der verschiedenen Angaben zur Hardware (machine, mem, cpu, disk_root, disk_data) sollten auf einen bestimmten Typen Hardware schließen lassen (das Feld 'architecture' ist hier überflüssig, ist ja in 'machine' auch mitcodiert). Das sollte wieder eine große SQL-Bastelei werden, in der ich prüfe, wie oft es jede Kombination gibt.
+
+Hmmm, dabei überlege ich mir, dass die Werte für disk_root und disk_data vielleicht zu spezifisch sind. Ich bin mir an dieser Stelle nicht sicher, ob es sich um belegten oder insgesamt verfügbaren Speicherplatz handelt. Ich denke die Kombination aus machine, mem und cpu sollte ausreichen.
+
+Um jetzt herauszufinden, wie viele Lizenzseriennummern auf den jeweiligen Hardwaretypen installiert sind, gehe ich wie folgt vor: Ich ergänze eine Spalte in der DB in die ich den Hardwaretypen schreibe (integer, einfach definiert durch eine Zählvariable). Hierfür muss ich noch einen key generieren (mit den hardwaredaten) und der value ist dann der Hardwaretyp ($type_number). Ich bin mir nicht sicher, ob es hierfür nicht eine einfachere Lösung gibt, aber mir fällt dazu nichts ein. Dieser Zwischenschritt scheint zu funktionieren, zur Dokumentation mache ich einen commit.
+Zum Schluss kann ich eine SQL Abfrage basteln, die mir die Bonusfrage beantwortet.
