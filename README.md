@@ -36,3 +36,8 @@ Ich glaube hier passiert auch Vorarbeit für die Lösung von Aufgabe 2: Ich beko
 
 2025-05-25
 Ok, habe jetzt ein array befüllt, in denen die Lizenz-Seriennummern, die mehr als einmal in der db vorkommen enthalten sind. Jetzt muss ich nur noch schauen, ob eine Seriennummer mehr als eine mac-Adresse hat.
+
+Das Array hätte ich dafür gar nicht befüllen müssen, nach einigem probieren und recherchieren habe ich erkannt, dass es auch hierfür eine performante SQL-Abfrage gibt.
+
+Die Dateien wurden wie folgt umbenannt: die index.php liefert jetzt die Antworten auf die gestellten Fragen. Die dataload.php lädt die Daten neu in die Datenbank. Ggf. sollten diese vorher manuell gelöscht werden.
+
