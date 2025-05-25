@@ -47,3 +47,7 @@ Hmmm, dabei überlege ich mir, dass die Werte für disk_root und disk_data viell
 
 Um jetzt herauszufinden, wie viele Lizenzseriennummern auf den jeweiligen Hardwaretypen installiert sind, gehe ich wie folgt vor: Ich ergänze eine Spalte in der DB in die ich den Hardwaretypen schreibe (integer, einfach definiert durch eine Zählvariable). Hierfür muss ich noch einen key generieren (mit den hardwaredaten) und der value ist dann der Hardwaretyp ($type_number). Ich bin mir nicht sicher, ob es hierfür nicht eine einfachere Lösung gibt, aber mir fällt dazu nichts ein. Dieser Zwischenschritt scheint zu funktionieren, zur Dokumentation mache ich einen commit.
 Zum Schluss kann ich eine SQL Abfrage basteln, die mir die Bonusfrage beantwortet.
+
+Erledigt. Die Aufgaben sind beantwortet.
+
+Mir fällt an dieser Stelle auf, dass die Hardwareklassenzuordnung wohl nicht ganz sauber ist, es gibt zu viele Klassen. Eine Klasseneinteilung mit weniger Parametern wäre wohl sinnvoller, z.B. nur anhand von CPU. Auch sind einige Datenfelder in der DB NULL, so dass ich noch einmal tiefergehend überprüfen müsste, ob das Einspielen der Daten aus der Logfile in die DB sauber funktioniert, ich denke hier gibt es noch Probleme, die ich lösen müsste. Leider fehlt mir an dieser Stelle die Zeit, mein alter Laptop braucht jedes mal knapp 3 Stunden um die Daten in die DB zu schreiben.
