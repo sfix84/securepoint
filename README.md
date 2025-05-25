@@ -33,3 +33,6 @@ IP konnte ja nie funktionieren um ein physisches Gerät sicher zu erkennen, da s
 Mit preg_replace noch "serial=" abgeschnitten. Nun lässt sich Frage 1 mit "SELECT `serialnumber_license`, COUNT(*) AS `anzahl` FROM `log_data` GROUP BY `serialnumber_license` HAVING COUNT(*) > 1 ORDER BY `anzahl` DESC;" beantworten.
 
 Ich glaube hier passiert auch Vorarbeit für die Lösung von Aufgabe 2: Ich bekomme hier ja alle Seriennummern, die mehr als einmal in der db auftauchen. Hier habe ich eine Vorauswahl, ich muss dann nur noch vergleichen ob es pro Seriennummer mehr als eine 'mac' gibt. Während die DB gerde nochmal nach dem preg_replace neu befüllt wird spiele ich in der neu angelegten Datei excercise2.php mal verschiedene sql/php lösungen durch. Später werde ich den Code noch sauber auf verschiedene Dateien aufteilen und eine optisch zumindest etwas ansprechende Ausgabe erzeugen. Es folgt ein commit, damit nachvollziehbar ist, was ich gerade tue.
+
+2025-05-25
+Ok, habe jetzt ein array befüllt, in denen die Lizenz-Seriennummern, die mehr als einmal in der db vorkommen enthalten sind. Jetzt muss ich nur noch schauen, ob eine Seriennummer mehr als eine mac-Adresse hat.
