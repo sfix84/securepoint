@@ -118,25 +118,26 @@ echo "<p>Thinking: A combination of the fields: machine, mem, cpu should give a 
 $stmt_select_hardwaretypes = "SELECT machine, mem, cpu, COUNT(*) AS anzahl FROM log_data GROUP BY machine, mem, cpu ORDER BY anzahl DESC;";
 $hardware_types = $db->query($stmt_select_hardwaretypes);
 $type_number = 0;
+$hardware_key_value_array = [];
 while($row = $hardware_types->fetch(PDO::FETCH_ASSOC)){
     $type_number++;
     $hardware_type = $row['machine'] . $row['mem'] . $row['cpu'];
-    echo "Hardware Typ: $hardware_type, Typnummer: $type_number <br>-----------------<br>";
-
-    
-
-    // echo "Hardwaretypnummer: " . $type_number . "<br>";
-    // print_r($row);
-    // echo "<br>------------<br>";
-    // array_push($violation_array, [
-    //     'serialnumber_license' => $row['serialnumber_license'],
-    //     'anzahl' => $row['anzahl']]
-    // );
+    $hardware_key_value_array[$hardware_type] = $type_number;
 };
-//$stmt = $db->prepare("INSERT INTO log_data (hardware_type) VALUES (:hardware_type)
+
 
 echo "<p>There are <b>$type_number</b> different classes of hardware.";
 
+
+$stmt_license_on_hardware_type_query ="SELECT hardware_type, COUNT(DISTINCT serialnumber_license) AS licences FROM log_data WHERE hardware_type IS NOT NULL GROUP BY hardware_type ORDER BY hardware_type ASC;";
+$license_on_hardware_type_array = $db->query($stmt_license_on_hardware_type_query);
+
+echo "<table><tr><th>hardware type</th><th>amount of serial numbers</th>";
+
+while($row = $license_on_hardware_type_array->fetch(PDO::FETCH_ASSOC)){
+    echo "<tr><td>{$row['hardware_type']}</td>";
+    echo "<td>{$row['licences']}</tr>";
+}
 
 
 ?>

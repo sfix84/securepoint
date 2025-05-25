@@ -177,3 +177,29 @@ if ($file){
 
 } 
 
+
+// Add Hardware Class
+
+$stmt_select_hardwaretypes = "SELECT machine, mem, cpu, COUNT(*) AS anzahl FROM log_data GROUP BY machine, mem, cpu ORDER BY anzahl DESC;";
+$hardware_types = $db->query($stmt_select_hardwaretypes);
+$type_number = 0;
+$hardware_key_value_array = [];
+while($row = $hardware_types->fetch(PDO::FETCH_ASSOC)){
+    $type_number++;
+    $hardware_type = $row['machine'] . $row['mem'] . $row['cpu'];
+    $hardware_key_value_array[$hardware_type] = $type_number;
+};
+
+$selection = $db->query("SELECT * FROM log_data");
+$stmt_update = "UPDATE log_data SET hardware_type = :type_number WHERE `key` = :key";
+$update = $db->prepare($stmt_update);
+
+while ($row = $selection->fetch(PDO::FETCH_ASSOC)){
+    $key = $row['machine'] . $row['mem'] . $row['cpu'];
+    if ($hardware_key_value_array[$key]){
+        $update->execute([
+            ':type_number' => $hardware_key_value_array[$key],
+            ':key' => $row['key']
+        ]);
+    }
+}
